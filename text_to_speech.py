@@ -38,6 +38,8 @@ class TextToSpeech(pyttsx3.Engine):  # inheriting from pyttsx3 module
                 print("Listening..")
                 # adjust for background noise which breaks listening
                 r.adjust_for_ambient_noise(cmd)
+                # do not translate message if user takes gap < 1 second while speaking
+                r.pause_threshold = 1
                 audio = r.listen(cmd)
             try:
                 self.command = r.recognize_google(audio, language="en-IN")  # indian english

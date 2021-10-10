@@ -1,6 +1,7 @@
 import json
 import random
 from text_to_speech import TextToSpeech as tts
+import re  # regex lib
 
 engine: tts = tts()
 
@@ -12,7 +13,7 @@ def get_nickname():
             name = engine.listen()
             while "sober" in name:
                 name = engine.listen()
-                file.write(engine.listen())
+                file.write(engine.listen())  # keeps deleting previous content before writing
         engine.say("That is a nice name. I will never forget that")
 
     try:
@@ -36,21 +37,24 @@ def get_commands():
         entered: bool = False
         # iterating through the parsed dictionary/map
         for keyword, messages in data.items():
-            if keyword in command:
-                entered = True
+            keywords = re.compile(keyword)
+            if re.search(keywords, command):
                 if isinstance(messages, list):
+                    entered = True
                     engine.say(random.choice(messages))
                 elif isinstance(messages, str):
+                    entered = True
                     engine.say(messages)
-            elif "your name" in command:
+        if not entered:
+            if "your name" in command:
                 entered = True
                 get_nickname()
             elif "bye" in command or "quit" in command or "fuck off" in command:
                 entered = True
                 engine.say("It was a pleasure talking to you. Hope we can hang out soon")
                 break
-        if not entered:
-            engine.say("Sorry, could you tell that again please? You sound like you are heavily drunk")
+            else:
+                engine.say("Sorry, could you tell that again please? You sound like you are heavily drunk")
 
 
 if __name__ == '__main__':
