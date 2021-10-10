@@ -1,5 +1,6 @@
-from text_to_speech import TextToSpeech as tts
+import json
 import random
+from text_to_speech import TextToSpeech as tts
 
 engine: tts = tts()
 
@@ -7,7 +8,7 @@ engine: tts = tts()
 def get_nickname():
     def ask_nickname():
         engine.say("You can call be anything babe i am all yours. I will remember my nickname")
-        with open("name.txt", "w") as file:
+        with open("files/name.txt", "w") as file:
             name = engine.listen()
             while "sober" in name:
                 name = engine.listen()
@@ -15,7 +16,7 @@ def get_nickname():
         engine.say("That is a nice name. I will never forget that")
 
     try:
-        with open("name.txt") as f:
+        with open("files/name.txt") as f:
             nick_name = f.read()
             if not nick_name.strip():
                 ask_nickname()
@@ -29,25 +30,27 @@ def get_commands():
     while True:
         # read from terminal without input message
         command = engine.listen().lower()
-        if "time" in command:
-            msg: list = [
-                "Its party time.",
-                "I believe its time for us to hang out?",
-                "I feel like its the right time to grab coffee.",
-            ]
-            # choose randomly from the above list
-            engine.say(random.choice(msg))
-        elif "single" in command:
-            engine.say("Do you want me to be?")
-        elif "your name" in command:
-            get_nickname()
-        elif "bye" in command or "quit" in command or "fuck off" in command:
-            engine.say("It was a pleasure talking to you. Hope we can hang out soon")
-            break
-        else:
-            engine.say("Sorry, could you tell that again please? You sound like you are heavily drunk")
+        with open("files/keywords.json") as JSon:
+            data: dict = json.loads(JSon.read())
 
-        engine.command = ""  # reset
+        entered: bool = False
+        # iterating through the parsed dictionary/map
+        for keyword, messages in data.items():
+            if keyword in command:
+                entered = True
+                if isinstance(messages, list):
+                    engine.say(random.choice(messages))
+                elif isinstance(messages, str):
+                    engine.say(messages)
+            elif "your name" in command:
+                entered = True
+                get_nickname()
+            elif "bye" in command or "quit" in command or "fuck off" in command:
+                entered = True
+                engine.say("It was a pleasure talking to you. Hope we can hang out soon")
+                break
+        if not entered:
+            engine.say("Sorry, could you tell that again please? You sound like you are heavily drunk")
 
 
 if __name__ == '__main__':

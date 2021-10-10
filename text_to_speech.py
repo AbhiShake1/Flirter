@@ -19,10 +19,13 @@ class TextToSpeech(pyttsx3.Engine):  # inheriting from pyttsx3 module
         super().say(msg)
         print(msg)
         self.runAndWait()
+        self.command = ""  # reset after speaking
 
+    # noinspection PyAttributeOutsideInit
     def get_input(self):
         self.command = input("Type here if you are too shy to speak: ")
 
+    # noinspection PyAttributeOutsideInit
     def listen(self) -> str:
         input_thread = Thread(target=self.get_input)
         input_thread.daemon = True  # Terminate thread when the main program terminates
