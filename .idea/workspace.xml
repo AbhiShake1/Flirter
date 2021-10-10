@@ -7,7 +7,6 @@
     <list default="true" id="c1fa3a3c-0d7a-4fff-aa94-e12070a61f59" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/files/keywords.json" beforeDir="false" afterPath="$PROJECT_DIR$/files/keywords.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/text_to_speech.py" beforeDir="false" afterPath="$PROJECT_DIR$/text_to_speech.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

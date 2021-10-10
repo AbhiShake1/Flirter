@@ -8,7 +8,7 @@ engine: tts = tts()
 
 def get_nickname():
     def ask_nickname():
-        engine.say("You can call be anything babe i am all yours. I will remember my nickname")
+        engine.say("You can call me anything babe i am all yours. I will remember my nickname")
         with open("files/name.txt", "w") as file:
             name = engine.listen()
             while "sober" in name:
@@ -46,11 +46,12 @@ def get_commands():
                     entered = True
                     engine.say(messages)
         if not entered:
-            if "your name" in command:
-                entered = True
+            if "change" in command and "voice" in command:
+                engine.change_voice()
+                engine.say("I changed by voice for you!")
+            elif "your name" in command:
                 get_nickname()
             elif "bye" in command or "quit" in command or "fuck off" in command:
-                entered = True
                 engine.say("It was a pleasure talking to you. Hope we can hang out soon")
                 break
             else:

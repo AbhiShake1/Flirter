@@ -11,8 +11,9 @@ class TextToSpeech(pyttsx3.Engine):  # inheriting from pyttsx3 module
         super().__init__()
         self.hour: int = int(dt.datetime.now().hour)
         # last voice index. usually female voice
-        default_voice: list = self.getProperty("voices")[-1].id
-        self.setProperty("voice", default_voice)
+        self.voice_index = 1
+        self.default_voice: list = self.getProperty("voices")[self.voice_index].id
+        self.setProperty("voice", self.default_voice)
 
     # overriding from superclass to print whats typed
     def say(self, msg: str, **kwargs):
@@ -48,6 +49,12 @@ class TextToSpeech(pyttsx3.Engine):  # inheriting from pyttsx3 module
                 return "Could not understand. Are you sober?"
 
         return self.command
+
+    def change_voice(self):
+        # first voice. usually male
+        self.voice_index = (self.voice_index + 1) % 2
+        self.default_voice: list = self.getProperty("voices")[self.voice_index].id
+        self.setProperty("voice", self.default_voice)
 
     def greet(self) -> None:
         greeting: str = "Hey babe, wanna have some fun before you sleep?"
