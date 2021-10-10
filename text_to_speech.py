@@ -1,7 +1,10 @@
-import pyttsx3  # text to speech lib
+import ctypes
+import locale
 import datetime as dt
-import speech_recognition as sr
 from threading import Thread
+
+import pyttsx3  # text to speech lib
+import speech_recognition as sr
 
 
 class TextToSpeech(pyttsx3.Engine):  # inheriting from pyttsx3 module
@@ -41,10 +44,13 @@ class TextToSpeech(pyttsx3.Engine):  # inheriting from pyttsx3 module
                 # adjust for background noise which breaks listening
                 r.adjust_for_ambient_noise(cmd)
                 # do not translate message if user takes gap < 1 second while speaking
-                r.pause_threshold = 1
+                # r.pause_threshold = 1
                 audio = r.listen(cmd)
             try:
-                self.command = r.recognize_google(audio, language="en-IN")  # indian english
+                # get and set default language of system
+                self.command = r.recognize_google(audio, language=locale.windows_locale[
+                    ctypes.windll.kernel32.GetUserDefaultUILanguage()]
+                                                  )
                 print(self.command)
             except Exception:
                 return "Could not understand. Are you sober?"
