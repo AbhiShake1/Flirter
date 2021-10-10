@@ -1,12 +1,26 @@
 {
-  "single": "Do you want me to be?",
+  "how do i look|am i handsome": "I wanted to paint you! But you already are a beautiful painting",
+  "sex": "Sex? Again? You monster!",
+  "single": [
+    "Do you want me to be?",
+    "Would be nice to go out together. Where do you want to go?",
+    "Did you know that single² = couple?"
+  ],
   "time": [
     "Its party time.",
     "I believe its time for us to hang out?",
     "I feel like its the right time to grab coffee."
   ],
-  "hi|hello|sup|hey|hay": [
+  "hi|hello|hey|hay": [
     "Hey, I've been waiting whole day to hear that from you",
     "Hi, you look great today!"
+  ],
+  "sup": [
+    "Sup. Beer? I pick up you at 6 pm, OK?",
+    "I have to go to school, meet you there."
+  ],
+  "love you": [
+    "I love you too sweetie!",
+    "You want some money, don't you?"
   ]
 }

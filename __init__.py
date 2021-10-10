@@ -2,14 +2,14 @@ import json
 import random
 import re  # regex lib
 from smtplib import SMTPAuthenticationError
-from text_to_speech import TextToSpeech as tts
+from text_to_speech import TextToSpeech
 from service.email_sender_service import EmailSenderService
 
-engine: tts = tts()
+engine: TextToSpeech = TextToSpeech()
 
 
-def get_nickname():
-    def ask_nickname():
+def get_nickname() -> None:
+    def ask_nickname() -> None:
         engine.say("You can call me anything babe i am all yours. I will remember my nickname")
         with open("files/name.txt", "w") as file:
             name = engine.listen()
@@ -29,30 +29,20 @@ def get_nickname():
         ask_nickname()
 
 
-def get_login_details() -> tuple:
+def send_mail() -> None:
     email = engine.prompt("What is your email?: ", timeout=7)
     password = engine.prompt("What is your password? You can trust me. I will keep it a secret: ", timeout=8)
-    return email, password
-
-
-def get_sending_details() -> tuple:
-    email = engine.prompt("What is the email of that lucky person you want me to email?: ", timeout=9)
+    email_to = engine.prompt("What is the email of that lucky person you want me to email?: ", timeout=9)
     subject = engine.prompt("What is the subject of the email?: ", timeout=10)
     msg = engine.prompt("What would  you like to tell him?: ", timeout=15)
-    return email, msg, subject
-
-
-def send_mail():
     try:
-        login_details = get_login_details()
-        sending_details = get_sending_details()
         EmailSenderService(
-            login_details[0],  # email
-            login_details[1],  # password
+            email,
+            password,
         ).send(
-            sending_details[2],  # subject
-            sending_details[1],  # message
-            email_to=sending_details[0]  # receiver email
+            subject,
+            msg,
+            email_to=email_to  # receiver email
         )
     except SMTPAuthenticationError:
         engine.say("Seems like you don't completely trust me, honey. The details are wrong")
@@ -60,7 +50,7 @@ def send_mail():
     engine.say("Your email has been sent. I need a kiss in return")
 
 
-def get_commands():
+def get_commands() -> None:
     while True:
         # read from terminal without input message
         command = engine.listen().lower()
