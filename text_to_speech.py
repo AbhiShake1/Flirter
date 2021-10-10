@@ -12,7 +12,8 @@ class TextToSpeech(pyttsx3.Engine):  # inheriting from pyttsx3 module
         self.hour: int = int(dt.datetime.now().hour)
         # last voice index. usually female voice
         self.voice_index = 1
-        self.default_voice: list = self.getProperty("voices")[self.voice_index].id
+        self.voices = self.getProperty("voices")
+        self.default_voice: str = self.getProperty("voices")[self.voice_index].id
         self.setProperty("voice", self.default_voice)
 
     # overriding from superclass to print whats typed
@@ -52,7 +53,7 @@ class TextToSpeech(pyttsx3.Engine):  # inheriting from pyttsx3 module
 
     def change_voice(self):
         # first voice. usually male
-        self.voice_index = (self.voice_index + 1) % 2
+        self.voice_index = (self.voice_index + 1) % len(self.voices)
         self.default_voice: list = self.getProperty("voices")[self.voice_index].id
         self.setProperty("voice", self.default_voice)
 
