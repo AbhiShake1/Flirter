@@ -1,10 +1,10 @@
 import ctypes
 import locale
+import pyttsx3  # text to speech lib
+import speech_recognition
+import speech_recognition as sr
 import datetime as dt
 from threading import Thread
-
-import pyttsx3  # text to speech lib
-import speech_recognition as sr
 
 
 class TextToSpeech(pyttsx3.Engine):  # inheriting from pyttsx3 module
@@ -50,18 +50,19 @@ class TextToSpeech(pyttsx3.Engine):  # inheriting from pyttsx3 module
                 audio = r.listen(cmd)
             try:
                 # get and set default language of system
-                self.command = r.recognize_google(audio, language=locale.windows_locale[
-                    ctypes.windll.kernel32.GetUserDefaultUILanguage()]
-                                                  )
+                self.command = r.recognize_google(
+                    audio, language=locale.windows_locale
+                    [ctypes.windll.kernel32.GetUserDefaultUILanguage()]
+                )
                 print(self.command)
-            except Exception:
+            except speech_recognition.UnknownValueError:
                 return "Could not understand. Are you sober?"
 
         return self.command
 
     def change_voice(self):
-        # first voice. usually male
         voices = self.getProperty("voices")
+        # switch between voices
         self.voice_index = (self.voice_index + 1) % len(voices)
         self.__set_voice__()
 
