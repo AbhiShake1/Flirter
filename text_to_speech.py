@@ -33,11 +33,11 @@ class TextToSpeech(pyttsx3.Engine):  # inheriting from pyttsx3 module
         self.command = input("Type here if you are too shy to speak: ")
 
     # noinspection PyAttributeOutsideInit
-    def listen(self) -> str:
+    def listen(self, timeout=3) -> str:
         input_thread = Thread(target=self.get_input)
         input_thread.daemon = True  # Terminate thread when the main program terminates
         input_thread.start()
-        input_thread.join(timeout=3)  # Stop listening to terminal input after 3 seconds
+        input_thread.join(timeout=timeout)  # Stop listening to terminal input after 3 seconds
 
         if not self.command:
             r = sr.Recognizer()

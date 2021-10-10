@@ -1,7 +1,9 @@
 import json
 import random
-from text_to_speech import TextToSpeech as tts
 import re  # regex lib
+from smtplib import SMTPAuthenticationError
+from text_to_speech import TextToSpeech as tts
+from service.email_sender_service import EmailSenderService
 
 engine: tts = tts()
 
@@ -27,6 +29,39 @@ def get_nickname():
         ask_nickname()
 
 
+def get_login_details() -> tuple:
+    engine.say("What is your email?: ")
+    email = engine.listen(timeout=7)
+    engine.say("What is your password? You can trust me. I will keep it a secret: ")
+    password = engine.listen(timeout=8)
+    return email, password
+
+
+def get_sending_details() -> tuple:
+    engine.say("What is the email of that lucky person you want me to email?: ")
+    email = engine.listen(timeout=9)
+    engine.say("What would  you like to tell him?: ")
+    msg = engine.listen(timeout=15)
+    return email, msg
+
+
+def send_mail():
+    try:
+        login_details = get_login_details()
+        sending_details = get_sending_details()
+        EmailSenderService(
+            login_details[0],  # email
+            login_details[1],  # password
+        ).send(
+            sending_details[1],  # message
+            email_to=sending_details[0]  # receiver email
+        )
+    except SMTPAuthenticationError:
+        engine.say("Seems like you don't completely trust me, honey. The details are wrong")
+        send_mail()
+    engine.say("Your email has been sent. Lets spend some more time again")
+
+
 def get_commands():
     while True:
         # read from terminal without input message
@@ -49,6 +84,8 @@ def get_commands():
             if "change" in command and "voice" in command:
                 engine.change_voice()
                 engine.say("I changed by voice for you!")
+            elif "mail" in command:
+                send_mail()
             elif "your name" in command:
                 get_nickname()
             elif "bye" in command or "quit" in command or "fuck off" in command:
