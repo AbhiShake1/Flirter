@@ -30,19 +30,16 @@ def get_nickname():
 
 
 def get_login_details() -> tuple:
-    engine.say("What is your email?: ")
-    email = engine.listen(timeout=7)
-    engine.say("What is your password? You can trust me. I will keep it a secret: ")
-    password = engine.listen(timeout=8)
+    email = engine.prompt("What is your email?: ", timeout=7)
+    password = engine.prompt("What is your password? You can trust me. I will keep it a secret: ", timeout=8)
     return email, password
 
 
 def get_sending_details() -> tuple:
-    engine.say("What is the email of that lucky person you want me to email?: ")
-    email = engine.listen(timeout=9)
-    engine.say("What would  you like to tell him?: ")
-    msg = engine.listen(timeout=15)
-    return email, msg
+    email = engine.prompt("What is the email of that lucky person you want me to email?: ", timeout=9)
+    subject = engine.prompt("What is the subject of the email?: ", timeout=10)
+    msg = engine.prompt("What would  you like to tell him?: ", timeout=15)
+    return email, msg, subject
 
 
 def send_mail():
@@ -53,13 +50,14 @@ def send_mail():
             login_details[0],  # email
             login_details[1],  # password
         ).send(
+            sending_details[2],  # subject
             sending_details[1],  # message
             email_to=sending_details[0]  # receiver email
         )
     except SMTPAuthenticationError:
         engine.say("Seems like you don't completely trust me, honey. The details are wrong")
         send_mail()
-    engine.say("Your email has been sent. Lets spend some more time again")
+    engine.say("Your email has been sent. I need a kiss in return")
 
 
 def get_commands():

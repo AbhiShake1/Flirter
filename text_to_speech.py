@@ -21,6 +21,10 @@ class TextToSpeech(pyttsx3.Engine):  # inheriting from pyttsx3 module
         voice: str = self.getProperty("voices")[self.voice_index].id
         self.setProperty("voice", voice)
 
+    def prompt(self, msg: str, timeout=3) -> str:
+        self.say(msg)
+        return self.listen(timeout=timeout)
+
     # overriding from superclass to print whats typed
     def say(self, msg: str, **kwargs) -> None:
         super().say(msg)
