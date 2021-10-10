@@ -13,21 +13,23 @@ class TextToSpeech(pyttsx3.Engine):  # inheriting from pyttsx3 module
         pyttsx3.init()
         super().__init__()
         self.hour: int = int(dt.datetime.now().hour)
-        # last voice index. usually female voice
+        # 2nd voice. usually female voice
         self.voice_index = 1
-        self.voices = self.getProperty("voices")
-        self.default_voice: str = self.getProperty("voices")[self.voice_index].id
-        self.setProperty("voice", self.default_voice)
+        self.__set_voice__()
+
+    def __set_voice__(self) -> None:
+        voice: str = self.getProperty("voices")[self.voice_index].id
+        self.setProperty("voice", voice)
 
     # overriding from superclass to print whats typed
-    def say(self, msg: str, **kwargs):
+    def say(self, msg: str, **kwargs) -> None:
         super().say(msg)
         print(msg)
         self.runAndWait()
         self.command = ""  # reset after speaking
 
     # noinspection PyAttributeOutsideInit
-    def get_input(self):
+    def get_input(self) -> None:
         self.command = input("Type here if you are too shy to speak: ")
 
     # noinspection PyAttributeOutsideInit
@@ -59,9 +61,9 @@ class TextToSpeech(pyttsx3.Engine):  # inheriting from pyttsx3 module
 
     def change_voice(self):
         # first voice. usually male
-        self.voice_index = (self.voice_index + 1) % len(self.voices)
-        self.default_voice: list = self.getProperty("voices")[self.voice_index].id
-        self.setProperty("voice", self.default_voice)
+        voices = self.getProperty("voices")
+        self.voice_index = (self.voice_index + 1) % len(voices)
+        self.__set_voice__()
 
     def greet(self) -> None:
         greeting: str = "Hey babe, wanna have some fun before you sleep?"
