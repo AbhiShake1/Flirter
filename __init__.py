@@ -4,6 +4,8 @@ import re  # regex lib
 from smtplib import SMTPAuthenticationError
 from text_to_speech import TextToSpeech
 from service.email_sender_service import EmailSenderService
+from service.wikipedia_service import WikipediaService
+from service.google_service import GoogleService
 
 engine: TextToSpeech = TextToSpeech()
 
@@ -30,11 +32,11 @@ def get_nickname() -> None:
 
 
 def send_mail() -> None:
-    email = engine.prompt("What is your email?: ", timeout=7)
-    password = engine.prompt("What is your password? You can trust me. I will keep it a secret: ", timeout=8)
-    email_to = engine.prompt("What is the email of that lucky person you want me to email?: ", timeout=9)
-    subject = engine.prompt("What is the subject of the email?: ", timeout=10)
-    msg = engine.prompt("What would  you like to tell him?: ", timeout=15)
+    email = engine.prompt("What is your email?: ")
+    password = engine.prompt("What is your password? You can trust me. I will keep it a secret: ")
+    email_to = engine.prompt("What is the email of that lucky person you want me to email?: ")
+    subject = engine.prompt("What is the subject of the email?: ")
+    msg = engine.prompt("What would  you like to tell him?: ")
     try:
         EmailSenderService(
             email,
@@ -76,6 +78,18 @@ def get_commands() -> None:
                 send_mail()
             elif "your name" in command:
                 get_nickname()
+            elif "wikipedia" in command:
+                engine.say("Searching in wikipedia... You can look at my face until then")
+                result = WikipediaService(
+                    command.strip("wikipedia").strip("search")  # remove "wikipedia", "search" before searching
+                ).search()
+                engine.say(result)
+            elif "google" in command:
+                engine.say("Googling... ")
+                GoogleService(
+                    command.strip("google").strip("search")
+                    .strip("in").strip("for")  # remove "google", "search", "in", "for" before searching
+                ).search()
             elif "bye" in command or "quit" in command or "fuck off" in command:
                 engine.say("It was a pleasure talking to you. Hope we can hang out soon")
                 break

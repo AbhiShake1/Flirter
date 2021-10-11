@@ -1,10 +1,11 @@
 import ctypes
 import locale
+
+import pyautogui
 import pyttsx3  # text to speech lib
 import speech_recognition
 import speech_recognition as sr
 import datetime as dt
-from threading import Thread
 
 
 class TextToSpeech(pyttsx3.Engine):  # inheriting from pyttsx3 module
@@ -22,9 +23,9 @@ class TextToSpeech(pyttsx3.Engine):  # inheriting from pyttsx3 module
         voice: str = self.getProperty("voices")[self.__voice_index__].id
         self.setProperty("voice", voice)
 
-    def prompt(self, msg: str, timeout=3) -> str:
+    def prompt(self, msg: str) -> str:
         self.say(msg)
-        return self.listen(timeout=timeout)
+        return self.listen()
 
     # overriding from superclass to print whats typed
     def say(self, msg: str, **kwargs) -> None:
@@ -34,15 +35,9 @@ class TextToSpeech(pyttsx3.Engine):  # inheriting from pyttsx3 module
         self.__command__ = ""  # reset after speaking
 
     # noinspection PyAttributeOutsideInit
-    def get_input(self) -> None:
-        self.__command__ = input("Type here if you are too shy to speak: ")
-
-    # noinspection PyAttributeOutsideInit
-    def listen(self, timeout=3) -> str:
-        input_thread = Thread(target=self.get_input)
-        input_thread.daemon = True  # Terminate thread when the main program terminates
-        input_thread.start()
-        input_thread.join(timeout=timeout)  # Stop listening to terminal input after 3 seconds
+    def listen(self) -> str:
+        self.__command__ = pyautogui.prompt("Type here if you are too shy to talk to me\n"
+                                            "Press CANCEL if you are not ")
 
         if not self.__command__:
             r = sr.Recognizer()
