@@ -1,6 +1,7 @@
 import json
 import random
 import re  # regex lib
+import service.temperature_service as temp
 from smtplib import SMTPAuthenticationError
 from text_to_speech import TextToSpeech
 from service.email_sender_service import EmailSenderService
@@ -78,6 +79,8 @@ def get_commands() -> None:
                 send_mail()
             elif "your name" in command:
                 get_nickname()
+            elif "temperature" in command:
+                engine.say(temp.get_current_temperature())
             elif "wikipedia" in command:
                 engine.say("Searching in wikipedia... You can look at my face until then")
                 result = WikipediaService(
