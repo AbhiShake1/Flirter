@@ -6,5 +6,5 @@ class GoogleService:
         self.search_for = search_for
 
     def search(self) -> None:
-        # open web browser and search
+        # open web chrome_util and search
         webbrowser.open("google.com/search?q=" + self.search_for)
