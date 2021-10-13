@@ -5,8 +5,8 @@ import service.temperature_service as temp
 from smtplib import SMTPAuthenticationError
 from core.text_to_speech import TextToSpeech
 from service.email_sender_service import EmailSenderService
-from service.wikipedia_service import WikipediaService
-from service.google_service import GoogleService
+from service.search.wikipedia_service import WikipediaService
+from service.search.generic_service import SearchService
 
 engine: TextToSpeech
 
@@ -72,6 +72,12 @@ def get_commands() -> None:
                     entered = True
                     engine.say(messages)
         if not entered:
+            def get_search_service(site_name: str) -> SearchService:
+                return SearchService(
+                    # remove "google", "search", "in", "for" before searching
+                    command.strip(site_name).strip("search").strip("in").strip("for")
+                )
+
             if "change" in command and "voice" in command:
                 engine.change_voice()
                 engine.say("I changed by voice for you!")
@@ -89,10 +95,10 @@ def get_commands() -> None:
                 engine.say(result)
             elif "google" in command:
                 engine.say("Googling... ")
-                GoogleService(
-                    command.strip("google").strip("search")
-                    .strip("in").strip("for")  # remove "google", "search", "in", "for" before searching
-                ).search()
+                get_search_service("google").search_google()
+            elif ("search" in command) and ("youtube" in command):
+                engine.say("Searching in youtube... ")
+                get_search_service("youtube").search_youtube()
             elif "bye" in command or "quit" in command or "fuck off" in command:
                 engine.say("It was a pleasure talking to you. Hope we can hang out soon")
                 break

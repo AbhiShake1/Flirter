@@ -5,16 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c1fa3a3c-0d7a-4fff-aa94-e12070a61f59" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/core/speech_recognizer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/service/chrome_util/chromedriver.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/service/chrome_util/youtube_service.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/service/fb_poster_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/google_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/service/google_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/temperature_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/service/temperature_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/text_to_speech.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/text_to_speech.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/google_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/service/search/generic_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/wikipedia_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/service/search/wikipedia_service.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,6 +57,7 @@
       <recent name="C:\Users\Abhi Shake\Downloads\Flirter\service\chrome_util" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Abhi Shake\Downloads\Flirter\service\search" />
       <recent name="C:\Users\Abhi Shake\Downloads\Flirter\modules" />
       <recent name="C:\Users\Abhi Shake\Downloads\Flirter\service\chrome_util" />
       <recent name="C:\Users\Abhi Shake\Downloads\Flirter\service" />
